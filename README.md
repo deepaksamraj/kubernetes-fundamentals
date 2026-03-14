@@ -1,4 +1,5 @@
-# Kubernetes Fundamentals — Flask App on Minikube
+# Kubernetes Fundamentals
+## _Flask App on Minikube_
 
 
 ![Python](https://img.shields.io/badge/Python-3.9+-blue?logo=python&logoColor=white)
@@ -44,39 +45,6 @@ This mirrors the workflow used in production environments.
 | **Secret** | Stores sensitive values (`API_KEY`) |
 | **Service (NodePort)** | Exposes the app externally via Minikube |
 
-This architecture cleanly separates concerns and follows Kubernetes best practices.
-
----
-
-## :question: Why ConfigMaps and Secrets?
-
-### **ConfigMaps — for non‑sensitive configuration**
-Used for values like:
-
-- Environment names  
-- Feature flags  
-- Application modes  
-
-**Why?**
-
-- Keeps config out of the image  
-- Allows promoting the same image across environments  
-- Lets you update configuration without rebuilding containers  
-
-### **Secrets — for sensitive data**
-Used for:
-
-- API keys  
-- Passwords  
-- Tokens  
-
-**Why?**
-
-- Prevents hard‑coding secrets in images or Git  
-- Stored separately and base64‑encoded  
-- Can be injected as environment variables or mounted as files  
-
-This separation is a core Kubernetes security principle.
 
 ---
 
@@ -109,12 +77,12 @@ resources:
 ```
 
 ### Why this is important:
-Requests guarantee a minimum amount of CPU/memory
-Limits cap how much a pod can consume
-Prevents “noisy neighbour” issues
-Ensures fair resource distribution
-Helps Kubernetes schedule pods intelligently
-This is a key senior‑level concept in cluster reliability and cost control.
+  - Requests guarantee a minimum amount of CPU/memory
+  - Limits cap how much a pod can consume
+  - Prevents “noisy neighbour” issues
+  - Ensures fair resource distribution
+  - Helps Kubernetes schedule pods intelligently
+  - This is a key concept in cluster reliability and cost control.
 
 
 ### ❤️ Liveness & Readiness Probes
@@ -133,11 +101,11 @@ readinessProbe:
 ```
 
 ### Why probes matter:
-Readiness probe ensures traffic is only sent to pods that are ready
-Liveness probe restarts pods that become unresponsive
-Prevents broken pods from receiving traffic
-Improves uptime and reliability
-Without probes, Kubernetes cannot safely manage pod lifecycle or traffic routing.
+  - Readiness probe ensures traffic is only sent to pods that are ready
+  - Liveness probe restarts pods that become unresponsive
+  - Prevents broken pods from receiving traffic
+  - Improves uptime and reliability
+  - Without probes, Kubernetes cannot safely manage pod lifecycle or traffic routing.
 
 ## 🌐 Accessing the Application (NodePort Service)
 The Service exposes the app externally via Minikube.
@@ -162,7 +130,7 @@ Hello from Kubernetes! ENV=development, API_KEY_PRESENT=True
 This confirms the Service is routing traffic to your pods.
 
 ## 🚀 What I Would Add Next
-This project forms a strong foundation. The next logical enhancements are:
+The next logical enhancements are:
 
 1. Ingress Controller
 Clean URLs (no NodePort)
@@ -171,12 +139,13 @@ Routing multiple services under one domain
 
 2. Horizontal Pod Autoscaler (HPA)
 Automatically scale pods based on CPU or custom metrics
-Demonstrates elasticity and cost‑efficiency
+To Demonstrate elasticity and cost‑efficiency
 
 3. Helm Chart
 Package all manifests into a reusable chart
 Parameterise values for different environments
 Industry‑standard deployment method
+
 These additions elevate the project into a full platform‑engineering showcase.
 
 
@@ -221,4 +190,3 @@ This project demonstrates:
 - Health probes
 - Self‑healing
 - External access via NodePort
-
