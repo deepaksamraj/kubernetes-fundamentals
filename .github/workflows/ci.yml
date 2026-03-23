@@ -1,0 +1,48 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+
+jobs:
+  build-test-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install flake8
+
+      - name: Run flake8 lint
+        run: flake8 .
+
+      - name: Build Docker image
+        run: docker build -t ${{ github.repository }}:latest .
+
+      - name: Run container smoke test
+        run: |
+          docker run -d -p 8080:8080 --name app ${{ github.repository }}:latest
+          sleep 5
+          curl -f http://localhost:8080/ || exit 1
+          docker stop app
+
+      - name: Log in to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Push image to DockerHub
+        run: |
+          docker tag ${{ github.repository }}:latest ${{ secrets.DOCKERHUB_USERNAME }}/k8s-app:latest
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/k8s-app:latest
