@@ -20,14 +20,14 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install -r requirements.txt
+          pip install -r app/requirements.txt
           pip install flake8
 
       - name: Run flake8 lint
         run: flake8 .
 
       - name: Build Docker image
-        run: docker build -t ${{ github.repository }}:latest .
+        run: docker build -t ${{ github.repository }}:latest -f app/Dockerfile app
 
       - name: Run container smoke test
         run: |
