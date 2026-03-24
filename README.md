@@ -1,5 +1,6 @@
 # Kubernetes Fundamentals
 ## _Flask App on Minikube_
+## :bookmark: Status: Complete
 
 
 ![Python](https://img.shields.io/badge/Python-3.9+-blue?logo=python&logoColor=white)
@@ -180,13 +181,16 @@ Access the app
 minikube service flask-app-service --url
 ```
 
-## :bookmark: Status: Complete
-This project demonstrates:
+## 🛠️ CI/CD Pipeline (Code → Lint → Build → Test → Push → Scan)
 
-- Containerisation
-- Kubernetes Deployments
-- ConfigMaps & Secrets
-- Resource governance
-- Health probes
-- Self‑healing
-- External access via NodePort
+A recommended CI/CD workflow for this project:
+
+1. Code commit to Git repository
+2. Static linting (e.g., `flake8`, `pylint`) and formatting checks (`black`)
+3. Build Docker image (`docker build`) and run unit tests in container
+4. Push image to container registry (Docker Hub / ECR / GCR)
+5. Security scan of the image (e.g., Trivy, Clair)
+6. Apply Kubernetes manifests via `kubectl` or Helm deploy
+
+This pipeline ensures that changes are validated fast, built reproducibly, tested before deploy, and scanned for vulnerabilities.
+
