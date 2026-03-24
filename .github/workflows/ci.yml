@@ -31,7 +31,7 @@ jobs:
 
       - name: Run container smoke test
         run: |
-          docker run -d -p 8080:8080 --name app ${{ github.repository }}:latest
+          docker run -d -p 8080:5080 --name app ${{ github.repository }}:latest
           sleep 5
           curl -f http://localhost:8080/ || exit 1
           docker stop app
